@@ -6,15 +6,17 @@ Bigtree
 
 Быстро начать
 -----------
-0. Вам понадобятся пакеты django-mptt и django-mpttadmin. Для реализации и отображения в админке деревье. Их можно установить через PIP.
-$ sudo pip install django-mptt, django-mpttadmin
+0. Вам понадобятся пакеты django-mptt и django-mptt-admin. Для реализации и отображения в админке деревье. Их можно установить через PIP.
+$ sudo pip install django-mptt, django-mptt-admin
 
 1. Добавьте "bigtree" в INSTALLED_APPS в settings.py::
 
     INSTALLED_APPS = (
         ...
         'bigtree',
-    )
+        'mptt',
+        'mpttadmin'
+            )
 
 2. Включите настройки url в urls.py, например так::
 
