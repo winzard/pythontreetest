@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Мир деревьев</title>
+</head>
+<body>
+{% for link, desc in links.items %}
+    <a href="{{ link }}/">{{ desc }}</a><br/>
+{% endfor %}
+</body>
+</html>

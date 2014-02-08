@@ -1,0 +1,51 @@
+{% load cache %}
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+    <title>Собственно дерево</title>
+    <style type="text/css">
+        html, body {
+    height: 100%;
+  }
+        a.select {
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+<div  style="height: 100%">
+{% cache 500 sidebar cat_id name description %}
+<div id="content" style=" float: right;">
+<h2>Песочница с формочками</h2>
+<a href="/admin/">Админка</a><br/>
+
+    {% include "bigtree/element.html" %}
+</div>
+{% endcache %}
+<div style="width: 50%; height: 98%; overflow-y: scroll; valign: top" id="nav">
+<h2>Здравствуй, дерево</h2>
+<small>Сейчас у нас: {{ time }}</small><br/>
+{% cache 500 treebar cat_id %}
+    <small>кешировано вот когда: {{ time }}</small><br/>
+{% load mptt_tags %}
+
+{% full_tree_for_model bigtree.Category as categories %}
+{% for cat,structure in categories|tree_info %}
+{% if structure.new_level %}
+    <ul><li>
+{% else %}
+    </li><li>
+{% endif %}
+<a href="{{ cat.id }}" id="item{{ cat.id }}" {% if cat.id == cat_id|add:0 %} class="select" {% endif %}>{{ cat.name }}</a>
+{% for level in structure.closed_levels %}
+    </li></ul>
+{% endfor %}
+{% endfor %}
+{% endcache %}
+</div>
+
+
+</div>
+</body>
+</html>

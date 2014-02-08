@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Грузим данные из Яндекс.Весны</title>
+</head>
+<body>
+{% if success %}
+    <p>Нужно было загрузить {{ amount }} элементов. Загрузили {{ loaded }}. Вставили {{ inserted }}</p>
+{% else %}
+    <p>Nope</p>
+{% endif %}
+</body>
+</html>

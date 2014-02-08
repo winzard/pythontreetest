@@ -1,0 +1,10 @@
+<small>Данные добыты: {{ time }}</small><br/>
+<form action="{% url 'manage' cat_id %}" method="post">
+    {% csrf_token %}
+<input type="hidden" name="cat_id" value="{{ cat_id }}"><br/>
+<input type="text" name="name" size="70" value="{{ name }}"><br/>
+<textarea name="description" rows="10" cols="70">{{ description }}</textarea><br/>
+<input type="submit" name="delete" value="Удалить">
+<input type="submit" name="save" value="Сохранить">
+<input type="submit" name="add" value="Добавить еще">
+</form>
