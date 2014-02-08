@@ -6,10 +6,13 @@ from django.template import RequestContext, loader
 import stupidtreelogic as usual
 from models import Category
 import datetime
+from django.core.cache import cache
 
 
 # views
 
+class Cache:
+    cachetime = ''
 
 def index(request):
     template = loader.get_template('bigtree/index.html')
@@ -56,7 +59,7 @@ def make_changes(post):
                 # тут бы и parent поменять, но не буду, это лучше через GUI делать
                 c.save()
 
-                return cat_id
+                return cat_id, str(datetime.datetime.now())
     elif post.__contains__('delete'):
         cat_id = post.get('cat_id', None)
         if cat_id is not None:
@@ -64,7 +67,7 @@ def make_changes(post):
             if c is not None:
                 c.delete()
 
-                return ''
+                return '', str(datetime.datetime.now())
     elif post.__contains__('add'):
         # добавляем на текущий уровень
         cat_id = post.get('cat_id', None)
@@ -73,16 +76,17 @@ def make_changes(post):
             if c is not None:
                 new_ = usual.child(c)
 
-                return str(new_.id)
+                return str(new_.id), str(datetime.datetime.now())
         else:
             new_ = usual.reset(None)
 
-            return str(new_.id)
+            return str(new_.id), str(datetime.datetime.now())
     return None
 
 
 def manage(request, *args):
     template = loader.get_template('bigtree/manage.html')
+    cachetime = cache.get('cachetime', '') # вообще эти данные можно писать в базу или файл и читать оттуда, но так проще
     name = ''
     description = ''
     if len(args) > 0:
@@ -90,7 +94,8 @@ def manage(request, *args):
     else:
         cat_id = ''
     if len(request.POST) > 0:
-        cat_id = make_changes(request.POST)
+        cat_id, cachetime = make_changes(request.POST)
+        cache.set('cachetime', cachetime)
     if len(cat_id) > 0:
         c = Category.objects.get(pk=int(cat_id))
         if c is not None:
@@ -103,9 +108,11 @@ def manage(request, *args):
         'name': name,
         'description': description,
         'time': str(datetime.datetime.now()),
+        'cachetime': cachetime
 
     })
     return HttpResponse(template.render(context))
+
 
 def element(request):
     template = loader.get_template('bigtree/element.html')

@@ -1,4 +1,4 @@
-<small>Данные добыты: {{ time }}</small><br/>
+<small>Данные добыты: {{ time }}// {{ cachetime }}</small><br/>
 <form action="{% url 'manage' cat_id %}" method="post">
     {% csrf_token %}
 <input type="hidden" name="cat_id" value="{{ cat_id }}"><br/>

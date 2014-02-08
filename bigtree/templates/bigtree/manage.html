@@ -1,4 +1,5 @@
 {% load cache %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,15 +20,15 @@
 <div id="content" style=" float: right;">
 <h2>Песочница с формочками</h2>
 <a href="/admin/">Админка</a><br/>
-
     {% include "bigtree/element.html" %}
 </div>
 {% endcache %}
 <div style="width: 50%; height: 98%; overflow-y: scroll; valign: top" id="nav">
 <h2>Здравствуй, дерево</h2>
 <small>Сейчас у нас: {{ time }}</small><br/>
-{% cache 500 treebar cat_id %}
-    <small>кешировано вот когда: {{ time }}</small><br/>
+{% cache 500 treebar cat_id cachetime %}
+    <small>кешировано вот когда: {{ time }}/ {{ cachetime }}</small><br/>
+
 {% load mptt_tags %}
 
 {% full_tree_for_model bigtree.Category as categories %}
