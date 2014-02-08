@@ -1,1 +1,27 @@
-This file was created by PyCharm 2.7.3 for binding GitHub repository
+=====
+Bigtree
+=====
+
+Это демонстрационное приложение, которое не делает ничего
+
+Быстро начать
+-----------
+0. Вам понадобятся пакеты django-mptt и django-mpttadmin. Для реализации и отображения в админке деревье. Их можно установить через PIP.
+$ sudo pip install django-mptt, django-mpttadmin
+
+1. Добавьте "bigtree" в INSTALLED_APPS в settings.py::
+
+    INSTALLED_APPS = (
+        ...
+        'bigtree',
+    )
+
+2. Включите настройки url в urls.py, например так::
+
+    url(r'^catalog/', include('bigtree.urls')),
+
+3. Выполните в консольке `python manage.py migrate`, чтобы создать модели. Если не поможет - `python manage.py syncdb`.
+
+4. Запустите сервер разработки.
+
+5. Зайдите на адрес http://127.0.0.1:8000/catalog/ а дальше там понятно.

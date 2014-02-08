@@ -1,0 +1,3 @@
+include README
+recursive-include bigtree/static *
+recursive-include bigtree/templates *
