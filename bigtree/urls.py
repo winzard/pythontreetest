@@ -8,4 +8,6 @@ urlpatterns = patterns('',
     url(r'^generate/$', views.generate, name='generate'),
     url(r'^display/$', views.display, name='display'),
     url(r'^manage/(\d*)$', views.manage, name='manage'),
+    url(r'^clear/$', views.clear, name='clear'),
+    url(r'^forest/$', views.forest, name='forest'),
 )

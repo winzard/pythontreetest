@@ -18,8 +18,10 @@ def index(request):
     template = loader.get_template('bigtree/index.html')
     context = RequestContext(request, {'links': {
         'generate': 'Вырастить дерево',
+        'forest': 'Вырастить лес',
         'display': 'Посмотреть на дерево',
         'manage': 'Собрать урожай',
+        'clear': 'Порубать всё'
         },
     }
     )
@@ -28,12 +30,25 @@ def index(request):
 
 def generate(request):
     template = loader.get_template('bigtree/generate.html')
-    amount, loaded, inserted = usual.genRandomTree()
+    amount, loaded, inserted, time = usual.genRandomTree()
     context = RequestContext(request, {
         'success': True,
         'amount': amount,
         'loaded': loaded,
         'inserted': inserted,
+        'time': time,
+    })
+    return HttpResponse(template.render(context))
+
+def forest(request):
+    template = loader.get_template('bigtree/generate.html')
+    amount, loaded, inserted, time = usual.genMultiTree()
+    context = RequestContext(request, {
+        'success': True,
+        'amount': amount,
+        'loaded': loaded,
+        'inserted': inserted,
+        'time': time,
     })
     return HttpResponse(template.render(context))
 
@@ -43,6 +58,20 @@ def display(request):
         'success': True,
     })
     return HttpResponse(template.render(context))
+
+
+from django.db import connection
+from django.db import transaction
+
+
+def clear(request):
+    #Category.objects.all().delete() не так всё просто. SQLite3 не может больше 999 элементов
+
+    cursor = connection.cursor()
+    cursor.execute("DELETE from bigtree_category")
+    transaction.commit_unless_managed()
+    html = "<html><body>Деревья удалены</body></html>"
+    return HttpResponse(html)
 
 
 def make_changes(post):
@@ -78,7 +107,7 @@ def make_changes(post):
 
                 return str(new_.id), str(datetime.datetime.now())
         else:
-            new_ = usual.reset(None)
+            new_ = usual.reset(None, usual.loadSpring())
 
             return str(new_.id), str(datetime.datetime.now())
     return None
