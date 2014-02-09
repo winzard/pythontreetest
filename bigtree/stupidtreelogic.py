@@ -6,6 +6,8 @@ from _sqlite import OperationalError
 import spring_loader as ya_loader
 from models import Category
 from random import randint
+from django.db import transaction
+from django.db.transaction import commit_manually
 import datetime
 
 
@@ -43,7 +45,7 @@ def child(current, element):
         return current
     return element
 
-
+@commit_manually
 def genRandomTree():
     tree_size = 1000 - Category.objects.count()
     if tree_size > 0:
@@ -59,6 +61,7 @@ def genRandomTree():
         begin = datetime.datetime.now()
         for _ in range(tree_size):
             pointer = options[randint(0, 2)](pointer, loadSpring())
+        transaction.commit()
         end = datetime.datetime.now()
         return tree_size, tree_size, tree_size, (end - begin).seconds
     else:
@@ -72,7 +75,7 @@ def loadMultiSprings(amount):
     result = [pool.apply_async(loadSpring, [t, ]) for t in xrange(amount)]
     return result
 
-
+@commit_manually
 def genMultiTree():
     tree_size = 1000 - Category.objects.count()
     if tree_size > 0:
@@ -87,8 +90,10 @@ def genMultiTree():
                     }
         begin = datetime.datetime.now()
         li = loadMultiSprings(tree_size)
+
         for m in li:
             pointer = options[randint(0, 2)](pointer, m.get())
+        transaction.commit()
         end = datetime.datetime.now()
         return tree_size, tree_size, tree_size, (end - begin).seconds
     else:
