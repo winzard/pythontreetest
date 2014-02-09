@@ -44,7 +44,7 @@ class Structure(models.Model):
 
 
 class Category(MPTTModel):
-    name = models.CharField('Заголовок', db_index=True, max_length=255, unique=True)
+    name = models.CharField('Заголовок', db_index=True, max_length=255, unique=False) # Яндекс, зараза, бывает дубли дает
     description = models.TextField('Описание', db_index=True,)
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name="Родитель", related_name='children')
 
