@@ -12,7 +12,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='bigtree',
-    version='0.2',
+    version='0.2.1',
     packages=['bigtree'],
     include_package_data=True,
     license='BSD License',  # example license
