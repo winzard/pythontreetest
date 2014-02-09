@@ -26,7 +26,7 @@ def load_single_page():
 
     if not title:
         title = 'Что-то вообще ничего не работает'
-    text ='\n'.join(map(extract_text, container.findAll('p')))
+    text = '\n'.join(map(extract_text, container.findAll('p')))
 
 
     return title.strip('\n'), text

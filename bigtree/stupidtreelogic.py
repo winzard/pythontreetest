@@ -12,7 +12,6 @@ from random import randint
 def loadSpring(*args):
     m = Category()
     m.name, m.description = ya_loader.load_single_page()
-    print m.name
     return m
 
 
