@@ -6,10 +6,20 @@ Bigtree
 
 Быстро начать
 -----------
+
 0. Вам понадобятся пакеты django-mptt и django-mptt-admin. Для реализации и отображения в админке деревье. Их можно установить через PIP. Также понадобится пакет BeautifulSoup4
+
 $ sudo pip install django-mptt, django-mptt-admin, beautifulsoup4
 
-1. Добавьте "bigtree" в INSTALLED_APPS в settings.py::
+1. Соберите пакет из исходников, выполнив
+
+$ python setup.py sdist
+
+2. Установите этот пакет из папки dist
+
+$ sudo pip install bigtree-0.3.0.tar.gz
+
+3. Добавьте "bigtree" в INSTALLED_APPS в settings.py::
 
     INSTALLED_APPS = (
         ...
@@ -18,12 +28,12 @@ $ sudo pip install django-mptt, django-mptt-admin, beautifulsoup4
         'mptt-admin'
             )
 
-2. Включите настройки url в urls.py, например так::
+4. Включите настройки url в urls.py, например так::
 
     url(r'^catalog/', include('bigtree.urls')),
 
-3. Выполните в консольке `python manage.py migrate`, чтобы создать модели. Если не поможет - `python manage.py syncdb`.
+5. Выполните в консольке `python manage.py migrate`, чтобы создать модели. Если не поможет - `python manage.py syncdb`.
 
-4. Запустите сервер разработки.
+6. Запустите сервер разработки.
 
-5. Зайдите на адрес http://127.0.0.1:8000/catalog/ а дальше там понятно.
+7. Зайдите на адрес http://127.0.0.1:8000/catalog/ а дальше там понятно.
